@@ -19,7 +19,7 @@
 #define TR_OpenProject(app, taglist)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a1") = (app);   \
+	register struct TR_App *p0 __asm("a1") = (app);   \
 	register struct TagItem *p1 __asm("a0") = (taglist);   \
 	register APTR r __asm("d0");   \
 	__asm volatile ("jsr a6@(-30:W);" : "+r"(b), "=r"(r) : "r"(p0), "r"(p1) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
@@ -29,7 +29,7 @@
 #define TR_CloseProject(project)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a0") = (project);   \
+	register struct TR_Project *p0 __asm("a0") = (project);   \
 	__asm volatile ("jsr a6@(-36:W);" : "+r"(b), "=r"(r) : "r"(p0) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
 })
 
@@ -56,7 +56,7 @@
 #define TR_GetErrorString(num)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register LONG p0 __asm("d0") = (num);   \
+	register UWORD p0 __asm("d0") = (num);   \
 	register APTR r __asm("d0");   \
 	__asm volatile ("jsr a6@(-54:W);" : "+r"(b), "=r"(r) : "r"(p0) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
 	r;   \
@@ -65,10 +65,10 @@
 #define TR_SetAttribute(project, ID, attribute, value)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a0") = (project);   \
-	register LONG p1 __asm("d0") = (ID);   \
-	register LONG p2 __asm("d1") = (attribute);   \
-	register LONG p3 __asm("d2") = (value);   \
+	register struct TR_Project *p0 __asm("a0") = (project);   \
+	register ULONG p1 __asm("d0") = (ID);   \
+	register ULONG p2 __asm("d1") = (attribute);   \
+	register ULONG p3 __asm("d2") = (value);   \
 	register APTR r __asm("d0");   \
 	__asm volatile ("jsr a6@(-60:W);" : "+r"(b), "=r"(r) : "r"(p0), "r"(p1), "r"(p2), "r"(p3) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
 	r;   \
@@ -77,9 +77,9 @@
 #define TR_GetAttribute(project, ID, attribute)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a0") = (project);   \
-	register LONG p1 __asm("d0") = (ID);   \
-	register LONG p2 __asm("d1") = (attribute);   \
+	register struct TR_Project *p0 __asm("a0") = (project);   \
+	register ULONG p1 __asm("d0") = (ID);   \
+	register ULONG p2 __asm("d1") = (attribute);   \
 	register APTR r __asm("d0");   \
 	__asm volatile ("jsr a6@(-66:W);" : "+r"(b), "=r"(r) : "r"(p0), "r"(p1), "r"(p2) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
 	r;   \
@@ -88,14 +88,14 @@
 #define TR_LockProject(project)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a0") = (project);   \
+	register struct TR_Project *p0 __asm("a0") = (project);   \
 	__asm volatile ("jsr a6@(-72:W);" : "+r"(b), "=r"(r) : "r"(p0) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
 })
 
 #define TR_UnlockProject(project)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a0") = (project);   \
+	register struct TR_Project *p0 __asm("a0") = (project);   \
 	__asm volatile ("jsr a6@(-78:W);" : "+r"(b), "=r"(r) : "r"(p0) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
 })
 
@@ -103,8 +103,8 @@
 #define TR_AutoRequest(app, lockproject, wintags)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a1") = (app);   \
-	register APTR p1 __asm("a0") = (lockproject);   \
+	register struct TR_App *p0 __asm("a1") = (app);   \
+	register struct TR_Project *p1 __asm("a0") = (lockproject);   \
 	register struct TagItem *p2 __asm("a2") = (wintags);   \
 	register APTR r __asm("d0");   \
 	__asm volatile ("jsr a6@(-84:W);" : "+r"(b), "=r"(r) : "r"(p0), "r"(p1), "r"(p2) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
@@ -114,7 +114,7 @@
 #define TR_EasyRequest(app, bodyfmt, gadfmt, taglist)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a1") = (app);   \
+	register struct TR_App *p0 __asm("a1") = (app);   \
 	register STRPTR p1 __asm("a2") = (bodyfmt);   \
 	register STRPTR p2 __asm("a3") = (gadfmt);   \
 	register struct TagItem *p3 __asm("a0") = (taglist);   \
@@ -135,14 +135,14 @@
 #define TR_DeleteApp(app)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a1") = (app);   \
+	register struct TR_App *p0 __asm("a1") = (app);   \
 	__asm volatile ("jsr a6@(-102:W);" : "+r"(b), "=r"(r) : "r"(p0) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
 })
 
 #define TR_GetMsg(app)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a1") = (app);   \
+	register struct TR_App *p0 __asm("a1") = (app);   \
 	register APTR r __asm("d0");   \
 	__asm volatile ("jsr a6@(-108:W);" : "+r"(b), "=r"(r) : "r"(p0) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
 	r;   \
@@ -151,14 +151,14 @@
 #define TR_ReplyMsg(message)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a1") = (message);   \
+	register struct TR_Message *p0 __asm("a1") = (message);   \
 	__asm volatile ("jsr a6@(-114:W);" : "+r"(b), "=r"(r) : "r"(p0) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
 })
 
 #define TR_Wait(app, otherbits)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a1") = (app);   \
+	register struct TR_App *p0 __asm("a1") = (app);   \
 	register ULONG p1 __asm("d0") = (otherbits);   \
 	register APTR r __asm("d0");   \
 	__asm volatile ("jsr a6@(-120:W);" : "+r"(b), "=r"(r) : "r"(p0), "r"(p1) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
@@ -175,7 +175,7 @@
 #define TR_GetLastError(app)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a1") = (app);   \
+	register struct TR_App *p0 __asm("a1") = (app);   \
 	register APTR r __asm("d0");   \
 	__asm volatile ("jsr a6@(-132:W);" : "+r"(b), "=r"(r) : "r"(p0) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
 	r;   \
@@ -184,8 +184,10 @@
 #define TR_LockScreen(project)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a0") = (project);   \
+	register struct TR_Project *p0 __asm("a0") = (project);   \
+	register APTR r __asm("d0");   \
 	__asm volatile ("jsr a6@(-138:W);" : "+r"(b), "=r"(r) : "r"(p0) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
+	r;   \
 })
 
 #define TR_UnlockScreen(screen)    \
@@ -198,7 +200,7 @@
 #define TR_ObtainWindow(project)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a0") = (project);   \
+	register struct TR_Project *p0 __asm("a0") = (project);   \
 	register APTR r __asm("d0");   \
 	__asm volatile ("jsr a6@(-150:W);" : "+r"(b), "=r"(r) : "r"(p0) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
 	r;   \
@@ -214,9 +216,9 @@
 #define TR_SendMessage(project, objectid, messageid, messagedata)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a0") = (project);   \
-	register LONG p1 __asm("d0") = (objectid);   \
-	register LONG p2 __asm("d1") = (messageid);   \
+	register struct TR_Project *p0 __asm("a0") = (project);   \
+	register ULONG p1 __asm("d0") = (objectid);   \
+	register ULONG p2 __asm("d1") = (messageid);   \
 	register APTR p3 __asm("a1") = (messagedata);   \
 	register APTR r __asm("d0");   \
 	__asm volatile ("jsr a6@(-162:W);" : "+r"(b), "=r"(r) : "r"(p0), "r"(p1), "r"(p2), "r"(p3) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
@@ -226,11 +228,11 @@
 #define TR_AddClass(app, tag, supertag, defaultmethod, datasize, tags)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a1") = (app);   \
-	register LONG p1 __asm("d0") = (tag);   \
-	register LONG p2 __asm("d1") = (supertag);   \
-	register LONG p3 __asm("a2") = (defaultmethod);   \
-	register LONG p4 __asm("d2") = (datasize);   \
+	register struct TR_App *p0 __asm("a1") = (app);   \
+	register ULONG p1 __asm("d0") = (tag);   \
+	register ULONG p2 __asm("d1") = (supertag);   \
+	register TR_Method p3 __asm("a2") = (defaultmethod);   \
+	register ULONG p4 __asm("d2") = (datasize);   \
 	register struct TagItem *p5 __asm("a0") = (tags);   \
 	register APTR r __asm("d0");   \
 	__asm volatile ("jsr a6@(-168:W);" : "+r"(b), "=r"(r) : "r"(p0), "r"(p1), "r"(p2), "r"(p3), "r"(p4), "r"(p5) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
@@ -241,22 +243,22 @@
 #define TR_DrawFrame(project, rp, left, top, width, height, type, inverted)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a0") = (project);   \
+	register struct TR_Project *p0 __asm("a0") = (project);   \
 	register struct RastPort *p1 __asm("a1") = (rp);   \
-	register LONG p2 __asm("d1") = (left);   \
-	register LONG p3 __asm("d2") = (top);   \
-	register LONG p4 __asm("d3") = (width);   \
-	register LONG p5 __asm("d4") = (height);   \
-	register LONG p6 __asm("d0") = (type);   \
-	register LONG p7 __asm("d5") = (inverted);   \
+	register UWORD p2 __asm("d1") = (left);   \
+	register UWORD p3 __asm("d2") = (top);   \
+	register UWORD p4 __asm("d3") = (width);   \
+	register UWORD p5 __asm("d4") = (height);   \
+	register UWORD p6 __asm("d0") = (type);   \
+	register BOOL p7 __asm("d5") = (inverted);   \
 	__asm volatile ("jsr a6@(-174:W);" : "+r"(b), "=r"(r) : "r"(p0), "r"(p1), "r"(p2), "r"(p3), "r"(p4), "r"(p5), "r"(p6), "r"(p7) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
 })
 
 #define TR_FrameBorderWidth(project, type)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a0") = (project);   \
-	register LONG p1 __asm("d0") = (type);   \
+	register struct TR_Project *p0 __asm("a0") = (project);   \
+	register UWORD p1 __asm("d0") = (type);   \
 	register APTR r __asm("d0");   \
 	__asm volatile ("jsr a6@(-180:W);" : "+r"(b), "=r"(r) : "r"(p0), "r"(p1) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
 	r;   \
@@ -265,8 +267,8 @@
 #define TR_FrameBorderHeight(project, type)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a0") = (project);   \
-	register LONG p1 __asm("d0") = (type);   \
+	register struct TR_Project *p0 __asm("a0") = (project);   \
+	register UWORD p1 __asm("d0") = (type);   \
 	register APTR r __asm("d0");   \
 	__asm volatile ("jsr a6@(-186:W);" : "+r"(b), "=r"(r) : "r"(p0), "r"(p1) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
 	r;   \
@@ -275,9 +277,9 @@
 #define TR_TextWidth(project, text, flags)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a0") = (project);   \
+	register struct TR_Project *p0 __asm("a0") = (project);   \
 	register STRPTR p1 __asm("a2") = (text);   \
-	register LONG p2 __asm("d0") = (flags);   \
+	register ULONG p2 __asm("d0") = (flags);   \
 	register APTR r __asm("d0");   \
 	__asm volatile ("jsr a6@(-192:W);" : "+r"(b), "=r"(r) : "r"(p0), "r"(p1), "r"(p2) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
 	r;   \
@@ -286,9 +288,9 @@
 #define TR_TextHeight(project, text, flags)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a0") = (project);   \
+	register struct TR_Project *p0 __asm("a0") = (project);   \
 	register STRPTR p1 __asm("a2") = (text);   \
-	register LONG p2 __asm("d0") = (flags);   \
+	register ULONG p2 __asm("d0") = (flags);   \
 	register APTR r __asm("d0");   \
 	__asm volatile ("jsr a6@(-198:W);" : "+r"(b), "=r"(r) : "r"(p0), "r"(p1), "r"(p2) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
 	r;   \
@@ -297,22 +299,22 @@
 #define TR_PrintText(project, rp, text, x, y, width, flags)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a0") = (project);   \
+	register struct TR_Project *p0 __asm("a0") = (project);   \
 	register struct RastPort *p1 __asm("a1") = (rp);   \
 	register STRPTR p2 __asm("a2") = (text);   \
-	register LONG p3 __asm("d1") = (x);   \
-	register LONG p4 __asm("d2") = (y);   \
-	register LONG p5 __asm("d3") = (width);   \
-	register LONG p6 __asm("d0") = (flags);   \
+	register ULONG p3 __asm("d1") = (x);   \
+	register ULONG p4 __asm("d2") = (y);   \
+	register ULONG p5 __asm("d3") = (width);   \
+	register ULONG p6 __asm("d0") = (flags);   \
 	__asm volatile ("jsr a6@(-204:W);" : "+r"(b), "=r"(r) : "r"(p0), "r"(p1), "r"(p2), "r"(p3), "r"(p4), "r"(p5), "r"(p6) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
 })
 
 #define TR_GetPen(project, pentype, pendata)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a0") = (project);   \
-	register LONG p1 __asm("d0") = (pentype);   \
-	register LONG p2 __asm("d1") = (pendata);   \
+	register struct TR_Project *p0 __asm("a0") = (project);   \
+	register ULONG p1 __asm("d0") = (pentype);   \
+	register ULONG p2 __asm("d1") = (pendata);   \
 	register APTR r __asm("d0");   \
 	__asm volatile ("jsr a6@(-210:W);" : "+r"(b), "=r"(r) : "r"(p0), "r"(p1), "r"(p2) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
 	r;   \
@@ -321,8 +323,8 @@
 #define TR_DoMethod(object, messageid, data)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a0") = (object);   \
-	register LONG p1 __asm("d0") = (messageid);   \
+	register struct TROD_Object *p0 __asm("a0") = (object);   \
+	register ULONG p1 __asm("d0") = (messageid);   \
 	register APTR p2 __asm("a1") = (data);   \
 	register APTR r __asm("d0");   \
 	__asm volatile ("jsr a6@(-216:W);" : "+r"(b), "=r"(r) : "r"(p0), "r"(p1), "r"(p2) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
@@ -332,10 +334,10 @@
 #define TR_DoMethodClass(object, messageid, data, class)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a0") = (object);   \
-	register LONG p1 __asm("d0") = (messageid);   \
+	register struct TROD_Object *p0 __asm("a0") = (object);   \
+	register ULONG p1 __asm("d0") = (messageid);   \
 	register APTR p2 __asm("a1") = (data);   \
-	register APTR p3 __asm("a2") = (class);   \
+	register struct TR_Class *p3 __asm("a2") = (class);   \
 	register APTR r __asm("d0");   \
 	__asm volatile ("jsr a6@(-222:W);" : "+r"(b), "=r"(r) : "r"(p0), "r"(p1), "r"(p2), "r"(p3) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
 	r;   \
@@ -344,21 +346,21 @@
 #define TR_AreaFill(project, rp, left, top, right, bottom, type, dummy)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a0") = (project);   \
+	register struct TR_Project *p0 __asm("a0") = (project);   \
 	register struct RastPort *p1 __asm("a1") = (rp);   \
-	register LONG p2 __asm("d0") = (left);   \
-	register LONG p3 __asm("d1") = (top);   \
-	register LONG p4 __asm("d2") = (right);   \
-	register LONG p5 __asm("d3") = (bottom);   \
-	register LONG p6 __asm("d4") = (type);   \
-	register APTR p7 __asm("a2") = (dummy);   \
+	register ULONG p2 __asm("d0") = (left);   \
+	register ULONG p3 __asm("d1") = (top);   \
+	register ULONG p4 __asm("d2") = (right);   \
+	register ULONG p5 __asm("d3") = (bottom);   \
+	register ULONG p6 __asm("d4") = (type);   \
+	register void *p7 __asm("a2") = (dummy);   \
 	__asm volatile ("jsr a6@(-228:W);" : "+r"(b), "=r"(r) : "r"(p0), "r"(p1), "r"(p2), "r"(p3), "r"(p4), "r"(p5), "r"(p6), "r"(p7) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
 })
 
 #define TR_CreateMsg(app)    \
 ({  \
 	register void *b __asm("a6") = TritonBase;  \
-	register APTR p0 __asm("a1") = (app);   \
+	register struct TR_App *p0 __asm("a1") = (app);   \
 	register APTR r __asm("d0");   \
 	__asm volatile ("jsr a6@(-234:W);" : "+r"(b), "=r"(r) : "r"(p0) : "d0", "d1", "a0", "a1", "fp0", "fp1", "cc", "memory");    \
 	r;   \

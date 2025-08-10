@@ -16,10 +16,10 @@
 
 /* "triton.library" */
 /*--- functions in V80 or higher --- */
-APTR __TR_OpenProject(__reg("a6") void *, __reg("a1") APTR app, __reg("a0") struct TagItem *taglist)="\tjsr\t-30(a6)";
+struct TR_Project *__TR_OpenProject(__reg("a6") void *, __reg("a1") struct TR_App *app, __reg("a0") struct TagItem *taglist)="\tjsr\t-30(a6)";
 #define TR_OpenProject(app, taglist) __TR_OpenProject(TritonBase, (app), (taglist))
 
-void __TR_CloseProject(__reg("a6") void *, __reg("a0") APTR project)="\tjsr\t-36(a6)";
+void __TR_CloseProject(__reg("a6") void *, __reg("a0") struct TR_Project *project)="\tjsr\t-36(a6)";
 #define TR_CloseProject(project) __TR_CloseProject(TritonBase, (project))
 
 LONG __TR_FirstOccurance(__reg("a6") void *, __reg("d0") UBYTE ch, __reg("a0") STRPTR str)="\tjsr\t-42(a6)";
@@ -28,99 +28,99 @@ LONG __TR_FirstOccurance(__reg("a6") void *, __reg("d0") UBYTE ch, __reg("a0") S
 LONG __TR_NumOccurances(__reg("a6") void *, __reg("d0") UBYTE ch, __reg("a0") STRPTR str)="\tjsr\t-48(a6)";
 #define TR_NumOccurances(ch, str) __TR_NumOccurances(TritonBase, (ch), (str))
 
-STRPTR __TR_GetErrorString(__reg("a6") void *, __reg("d0") LONG num)="\tjsr\t-54(a6)";
+STRPTR __TR_GetErrorString(__reg("a6") void *, __reg("d0") UWORD num)="\tjsr\t-54(a6)";
 #define TR_GetErrorString(num) __TR_GetErrorString(TritonBase, (num))
 
-LONG __TR_SetAttribute(__reg("a6") void *, __reg("a0") APTR project, __reg("d0") LONG ID, __reg("d1") LONG attribute, __reg("d2") LONG value)="\tjsr\t-60(a6)";
+LONG __TR_SetAttribute(__reg("a6") void *, __reg("a0") struct TR_Project *project, __reg("d0") ULONG ID, __reg("d1") ULONG attribute, __reg("d2") ULONG value)="\tjsr\t-60(a6)";
 #define TR_SetAttribute(project, ID, attribute, value) __TR_SetAttribute(TritonBase, (project), (ID), (attribute), (value))
 
-LONG __TR_GetAttribute(__reg("a6") void *, __reg("a0") APTR project, __reg("d0") LONG ID, __reg("d1") LONG attribute)="\tjsr\t-66(a6)";
+ULONG __TR_GetAttribute(__reg("a6") void *, __reg("a0") struct TR_Project *project, __reg("d0") ULONG ID, __reg("d1") ULONG attribute)="\tjsr\t-66(a6)";
 #define TR_GetAttribute(project, ID, attribute) __TR_GetAttribute(TritonBase, (project), (ID), (attribute))
 
-void __TR_LockProject(__reg("a6") void *, __reg("a0") APTR project)="\tjsr\t-72(a6)";
+void __TR_LockProject(__reg("a6") void *, __reg("a0") struct TR_Project *project)="\tjsr\t-72(a6)";
 #define TR_LockProject(project) __TR_LockProject(TritonBase, (project))
 
-void __TR_UnlockProject(__reg("a6") void *, __reg("a0") APTR project)="\tjsr\t-78(a6)";
+void __TR_UnlockProject(__reg("a6") void *, __reg("a0") struct TR_Project *project)="\tjsr\t-78(a6)";
 #define TR_UnlockProject(project) __TR_UnlockProject(TritonBase, (project))
 
 /*--- functions in V81 or higher --- */
-LONG __TR_AutoRequest(__reg("a6") void *, __reg("a1") APTR app, __reg("a0") APTR lockproject, __reg("a2") struct TagItem *wintags)="\tjsr\t-84(a6)";
+ULONG __TR_AutoRequest(__reg("a6") void *, __reg("a1") struct TR_App *app, __reg("a0") struct TR_Project *lockproject, __reg("a2") struct TagItem *wintags)="\tjsr\t-84(a6)";
 #define TR_AutoRequest(app, lockproject, wintags) __TR_AutoRequest(TritonBase, (app), (lockproject), (wintags))
 
-LONG __TR_EasyRequest(__reg("a6") void *, __reg("a1") APTR app, __reg("a2") STRPTR bodyfmt, __reg("a3") STRPTR gadfmt, __reg("a0") struct TagItem *taglist)="\tjsr\t-90(a6)";
+ULONG __TR_EasyRequest(__reg("a6") void *, __reg("a1") struct TR_App *app, __reg("a2") STRPTR bodyfmt, __reg("a3") STRPTR gadfmt, __reg("a0") struct TagItem *taglist)="\tjsr\t-90(a6)";
 #define TR_EasyRequest(app, bodyfmt, gadfmt, taglist) __TR_EasyRequest(TritonBase, (app), (bodyfmt), (gadfmt), (taglist))
 
-APTR __TR_CreateApp(__reg("a6") void *, __reg("a1") struct TagItem *apptags)="\tjsr\t-96(a6)";
+struct TR_App *__TR_CreateApp(__reg("a6") void *, __reg("a1") struct TagItem *apptags)="\tjsr\t-96(a6)";
 #define TR_CreateApp(apptags) __TR_CreateApp(TritonBase, (apptags))
 
-void __TR_DeleteApp(__reg("a6") void *, __reg("a1") APTR app)="\tjsr\t-102(a6)";
+void __TR_DeleteApp(__reg("a6") void *, __reg("a1") struct TR_App *app)="\tjsr\t-102(a6)";
 #define TR_DeleteApp(app) __TR_DeleteApp(TritonBase, (app))
 
-APTR __TR_GetMsg(__reg("a6") void *, __reg("a1") APTR app)="\tjsr\t-108(a6)";
+struct TR_Message *__TR_GetMsg(__reg("a6") void *, __reg("a1") struct TR_App *app)="\tjsr\t-108(a6)";
 #define TR_GetMsg(app) __TR_GetMsg(TritonBase, (app))
 
-void __TR_ReplyMsg(__reg("a6") void *, __reg("a1") APTR message)="\tjsr\t-114(a6)";
+void __TR_ReplyMsg(__reg("a6") void *, __reg("a1") struct TR_Message *message)="\tjsr\t-114(a6)";
 #define TR_ReplyMsg(message) __TR_ReplyMsg(TritonBase, (message))
 
-LONG __TR_Wait(__reg("a6") void *, __reg("a1") APTR app, __reg("d0") ULONG otherbits)="\tjsr\t-120(a6)";
+ULONG __TR_Wait(__reg("a6") void *, __reg("a1") struct TR_App *app, __reg("d0") ULONG otherbits)="\tjsr\t-120(a6)";
 #define TR_Wait(app, otherbits) __TR_Wait(TritonBase, (app), (otherbits))
 
 void __TR_CloseWindowSafely(__reg("a6") void *, __reg("a0") struct Window *window)="\tjsr\t-126(a6)";
 #define TR_CloseWindowSafely(window) __TR_CloseWindowSafely(TritonBase, (window))
 
-LONG __TR_GetLastError(__reg("a6") void *, __reg("a1") APTR app)="\tjsr\t-132(a6)";
+UWORD __TR_GetLastError(__reg("a6") void *, __reg("a1") struct TR_App *app)="\tjsr\t-132(a6)";
 #define TR_GetLastError(app) __TR_GetLastError(TritonBase, (app))
 
-void __TR_LockScreen(__reg("a6") void *, __reg("a0") APTR project)="\tjsr\t-138(a6)";
+struct Screen *__TR_LockScreen(__reg("a6") void *, __reg("a0") struct TR_Project *project)="\tjsr\t-138(a6)";
 #define TR_LockScreen(project) __TR_LockScreen(TritonBase, (project))
 
 void __TR_UnlockScreen(__reg("a6") void *, __reg("a0") struct Screen *screen)="\tjsr\t-144(a6)";
 #define TR_UnlockScreen(screen) __TR_UnlockScreen(TritonBase, (screen))
 
-APTR __TR_ObtainWindow(__reg("a6") void *, __reg("a0") APTR project)="\tjsr\t-150(a6)";
+struct Window *__TR_ObtainWindow(__reg("a6") void *, __reg("a0") struct TR_Project *project)="\tjsr\t-150(a6)";
 #define TR_ObtainWindow(project) __TR_ObtainWindow(TritonBase, (project))
 
 void __TR_ReleaseWindow(__reg("a6") void *, __reg("a0") struct Window *window)="\tjsr\t-156(a6)";
 #define TR_ReleaseWindow(window) __TR_ReleaseWindow(TritonBase, (window))
 
-LONG __TR_SendMessage(__reg("a6") void *, __reg("a0") APTR project, __reg("d0") LONG objectid, __reg("d1") LONG messageid, __reg("a1") APTR messagedata)="\tjsr\t-162(a6)";
+ULONG __TR_SendMessage(__reg("a6") void *, __reg("a0") struct TR_Project *project, __reg("d0") ULONG objectid, __reg("d1") ULONG messageid, __reg("a1") APTR messagedata)="\tjsr\t-162(a6)";
 #define TR_SendMessage(project, objectid, messageid, messagedata) __TR_SendMessage(TritonBase, (project), (objectid), (messageid), (messagedata))
 
-LONG __TR_AddClass(__reg("a6") void *, __reg("a1") APTR app, __reg("d0") LONG tag, __reg("d1") LONG supertag, __reg("a2") LONG defaultmethod, __reg("d2") LONG datasize, __reg("a0") struct TagItem *tags)="\tjsr\t-168(a6)";
+BOOL __TR_AddClass(__reg("a6") void *, __reg("a1") struct TR_App *app, __reg("d0") ULONG tag, __reg("d1") ULONG supertag, __reg("a2") TR_Method defaultmethod, __reg("d2") ULONG datasize, __reg("a0") struct TagItem *tags)="\tjsr\t-168(a6)";
 #define TR_AddClass(app, tag, supertag, defaultmethod, datasize, tags) __TR_AddClass(TritonBase, (app), (tag), (supertag), (defaultmethod), (datasize), (tags))
 
 /*--- functions in V180 or higher --- */
-void __TR_DrawFrame(__reg("a6") void *, __reg("a0") APTR project, __reg("a1") struct RastPort *rp, __reg("d1") LONG left, __reg("d2") LONG top, __reg("d3") LONG width, __reg("d4") LONG height, __reg("d0") LONG type, __reg("d5") LONG inverted)="\tjsr\t-174(a6)";
+void __TR_DrawFrame(__reg("a6") void *, __reg("a0") struct TR_Project *project, __reg("a1") struct RastPort *rp, __reg("d1") UWORD left, __reg("d2") UWORD top, __reg("d3") UWORD width, __reg("d4") UWORD height, __reg("d0") UWORD type, __reg("d5") BOOL inverted)="\tjsr\t-174(a6)";
 #define TR_DrawFrame(project, rp, left, top, width, height, type, inverted) __TR_DrawFrame(TritonBase, (project), (rp), (left), (top), (width), (height), (type), (inverted))
 
-LONG __TR_FrameBorderWidth(__reg("a6") void *, __reg("a0") APTR project, __reg("d0") LONG type)="\tjsr\t-180(a6)";
+ULONG __TR_FrameBorderWidth(__reg("a6") void *, __reg("a0") struct TR_Project *project, __reg("d0") UWORD type)="\tjsr\t-180(a6)";
 #define TR_FrameBorderWidth(project, type) __TR_FrameBorderWidth(TritonBase, (project), (type))
 
-LONG __TR_FrameBorderHeight(__reg("a6") void *, __reg("a0") APTR project, __reg("d0") LONG type)="\tjsr\t-186(a6)";
+ULONG __TR_FrameBorderHeight(__reg("a6") void *, __reg("a0") struct TR_Project *project, __reg("d0") UWORD type)="\tjsr\t-186(a6)";
 #define TR_FrameBorderHeight(project, type) __TR_FrameBorderHeight(TritonBase, (project), (type))
 
-LONG __TR_TextWidth(__reg("a6") void *, __reg("a0") APTR project, __reg("a2") STRPTR text, __reg("d0") LONG flags)="\tjsr\t-192(a6)";
+ULONG __TR_TextWidth(__reg("a6") void *, __reg("a0") struct TR_Project *project, __reg("a2") STRPTR text, __reg("d0") ULONG flags)="\tjsr\t-192(a6)";
 #define TR_TextWidth(project, text, flags) __TR_TextWidth(TritonBase, (project), (text), (flags))
 
-LONG __TR_TextHeight(__reg("a6") void *, __reg("a0") APTR project, __reg("a2") STRPTR text, __reg("d0") LONG flags)="\tjsr\t-198(a6)";
+ULONG __TR_TextHeight(__reg("a6") void *, __reg("a0") struct TR_Project *project, __reg("a2") STRPTR text, __reg("d0") ULONG flags)="\tjsr\t-198(a6)";
 #define TR_TextHeight(project, text, flags) __TR_TextHeight(TritonBase, (project), (text), (flags))
 
-void __TR_PrintText(__reg("a6") void *, __reg("a0") APTR project, __reg("a1") struct RastPort *rp, __reg("a2") STRPTR text, __reg("d1") LONG x, __reg("d2") LONG y, __reg("d3") LONG width, __reg("d0") LONG flags)="\tjsr\t-204(a6)";
+void __TR_PrintText(__reg("a6") void *, __reg("a0") struct TR_Project *project, __reg("a1") struct RastPort *rp, __reg("a2") STRPTR text, __reg("d1") ULONG x, __reg("d2") ULONG y, __reg("d3") ULONG width, __reg("d0") ULONG flags)="\tjsr\t-204(a6)";
 #define TR_PrintText(project, rp, text, x, y, width, flags) __TR_PrintText(TritonBase, (project), (rp), (text), (x), (y), (width), (flags))
 
-LONG __TR_GetPen(__reg("a6") void *, __reg("a0") APTR project, __reg("d0") LONG pentype, __reg("d1") LONG pendata)="\tjsr\t-210(a6)";
+ULONG __TR_GetPen(__reg("a6") void *, __reg("a0") struct TR_Project *project, __reg("d0") ULONG pentype, __reg("d1") ULONG pendata)="\tjsr\t-210(a6)";
 #define TR_GetPen(project, pentype, pendata) __TR_GetPen(TritonBase, (project), (pentype), (pendata))
 
-LONG __TR_DoMethod(__reg("a6") void *, __reg("a0") APTR object, __reg("d0") LONG messageid, __reg("a1") APTR data)="\tjsr\t-216(a6)";
+ULONG __TR_DoMethod(__reg("a6") void *, __reg("a0") struct TROD_Object *object, __reg("d0") ULONG messageid, __reg("a1") APTR data)="\tjsr\t-216(a6)";
 #define TR_DoMethod(object, messageid, data) __TR_DoMethod(TritonBase, (object), (messageid), (data))
 
-LONG __TR_DoMethodClass(__reg("a6") void *, __reg("a0") APTR object, __reg("d0") LONG messageid, __reg("a1") APTR data, __reg("a2") APTR class)="\tjsr\t-222(a6)";
+ULONG __TR_DoMethodClass(__reg("a6") void *, __reg("a0") struct TROD_Object *object, __reg("d0") ULONG messageid, __reg("a1") APTR data, __reg("a2") struct TR_Class *class)="\tjsr\t-222(a6)";
 #define TR_DoMethodClass(object, messageid, data, class) __TR_DoMethodClass(TritonBase, (object), (messageid), (data), (class))
 
-void __TR_AreaFill(__reg("a6") void *, __reg("a0") APTR project, __reg("a1") struct RastPort *rp, __reg("d0") LONG left, __reg("d1") LONG top, __reg("d2") LONG right, __reg("d3") LONG bottom, __reg("d4") LONG type, __reg("a2") APTR dummy)="\tjsr\t-228(a6)";
+void __TR_AreaFill(__reg("a6") void *, __reg("a0") struct TR_Project *project, __reg("a1") struct RastPort *rp, __reg("d0") ULONG left, __reg("d1") ULONG top, __reg("d2") ULONG right, __reg("d3") ULONG bottom, __reg("d4") ULONG type, __reg("a2") void *dummy)="\tjsr\t-228(a6)";
 #define TR_AreaFill(project, rp, left, top, right, bottom, type, dummy) __TR_AreaFill(TritonBase, (project), (rp), (left), (top), (right), (bottom), (type), (dummy))
 
-APTR __TR_CreateMsg(__reg("a6") void *, __reg("a1") APTR app)="\tjsr\t-234(a6)";
+struct TR_Message *__TR_CreateMsg(__reg("a6") void *, __reg("a1") struct TR_App *app)="\tjsr\t-234(a6)";
 #define TR_CreateMsg(app) __TR_CreateMsg(TritonBase, (app))
 
 

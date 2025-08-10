@@ -33,46 +33,49 @@ extern "C" {
 #ifndef UTILITY_TAGITEM_H
 #include <utility/tagitem.h>
 #endif
+#ifndef LIBRARIES_TRITON_H
+#include <libraries/triton.h>
+#endif
 
 /* "triton.library"*/
 /*--- functions in V80 or higher ---*/
-APTR TR_OpenProject(APTR app, struct TagItem *taglist);
-void TR_CloseProject(APTR project);
+struct TR_Project *TR_OpenProject(struct TR_App *app, struct TagItem *taglist);
+void TR_CloseProject(struct TR_Project *project);
 LONG TR_FirstOccurance(UBYTE ch, STRPTR str);
 LONG TR_NumOccurances(UBYTE ch, STRPTR str);
-STRPTR TR_GetErrorString(LONG num);
-LONG TR_SetAttribute(APTR project, LONG ID, LONG attribute, LONG value);
-LONG TR_GetAttribute(APTR project, LONG ID, LONG attribute);
-void TR_LockProject(APTR project);
-void TR_UnlockProject(APTR project);
+STRPTR TR_GetErrorString(UWORD num);
+LONG TR_SetAttribute(struct TR_Project *project, ULONG ID, ULONG attribute, ULONG value);
+ULONG TR_GetAttribute(struct TR_Project *project, ULONG ID, ULONG attribute);
+void TR_LockProject(struct TR_Project *project);
+void TR_UnlockProject(struct TR_Project *project);
 /*--- functions in V81 or higher ---*/
-LONG TR_AutoRequest(APTR app, APTR lockproject, struct TagItem *wintags);
-LONG TR_EasyRequest(APTR app, STRPTR bodyfmt, STRPTR gadfmt, struct TagItem *taglist);
-APTR TR_CreateApp(struct TagItem *apptags);
-void TR_DeleteApp(APTR app);
-APTR TR_GetMsg(APTR app);
-void TR_ReplyMsg(APTR message);
-LONG TR_Wait(APTR app, ULONG otherbits);
+ULONG TR_AutoRequest(struct TR_App *app, struct TR_Project *lockproject, struct TagItem *wintags);
+ULONG TR_EasyRequest(struct TR_App *app, STRPTR bodyfmt, STRPTR gadfmt, struct TagItem *taglist);
+struct TR_App *TR_CreateApp(struct TagItem *apptags);
+void TR_DeleteApp(struct TR_App *app);
+struct TR_Message *TR_GetMsg(struct TR_App *app);
+void TR_ReplyMsg(struct TR_Message *message);
+ULONG TR_Wait(struct TR_App *app, ULONG otherbits);
 void TR_CloseWindowSafely(struct Window *window);
-LONG TR_GetLastError(APTR app);
-void TR_LockScreen(APTR project);
+UWORD TR_GetLastError(struct TR_App *app);
+struct Screen *TR_LockScreen(struct TR_Project *project);
 void TR_UnlockScreen(struct Screen *screen);
-APTR TR_ObtainWindow(APTR project);
+struct Window *TR_ObtainWindow(struct TR_Project *project);
 void TR_ReleaseWindow(struct Window *window);
-LONG TR_SendMessage(APTR project, LONG objectid, LONG messageid, APTR messagedata);
-LONG TR_AddClass(APTR app, LONG tag, LONG supertag, LONG defaultmethod, LONG datasize, struct TagItem *tags);
+ULONG TR_SendMessage(struct TR_Project *project, ULONG objectid, ULONG messageid, APTR messagedata);
+BOOL TR_AddClass(struct TR_App *app, ULONG tag, ULONG supertag, TR_Method defaultmethod, ULONG datasize, struct TagItem *tags);
 /*--- functions in V180 or higher ---*/
-void TR_DrawFrame(APTR project, struct RastPort *rp, LONG left, LONG top, LONG width, LONG height, LONG type, LONG inverted);
-LONG TR_FrameBorderWidth(APTR project, LONG type);
-LONG TR_FrameBorderHeight(APTR project, LONG type);
-LONG TR_TextWidth(APTR project, STRPTR text, LONG flags);
-LONG TR_TextHeight(APTR project, STRPTR text, LONG flags);
-void TR_PrintText(APTR project, struct RastPort *rp, STRPTR text, LONG x, LONG y, LONG width, LONG flags);
-LONG TR_GetPen(APTR project, LONG pentype, LONG pendata);
-LONG TR_DoMethod(APTR object, LONG messageid, APTR data);
-LONG TR_DoMethodClass(APTR object, LONG messageid, APTR data, APTR class);
-void TR_AreaFill(APTR project, struct RastPort *rp, LONG left, LONG top, LONG right, LONG bottom, LONG type, APTR dummy);
-APTR TR_CreateMsg(APTR app);
+void TR_DrawFrame(struct TR_Project *project, struct RastPort *rp, UWORD left, UWORD top, UWORD width, UWORD height, UWORD type, BOOL inverted);
+ULONG TR_FrameBorderWidth(struct TR_Project *project, UWORD type);
+ULONG TR_FrameBorderHeight(struct TR_Project *project, UWORD type);
+ULONG TR_TextWidth(struct TR_Project *project, STRPTR text, ULONG flags);
+ULONG TR_TextHeight(struct TR_Project *project, STRPTR text, ULONG flags);
+void TR_PrintText(struct TR_Project *project, struct RastPort *rp, STRPTR text, ULONG x, ULONG y, ULONG width, ULONG flags);
+ULONG TR_GetPen(struct TR_Project *project, ULONG pentype, ULONG pendata);
+ULONG TR_DoMethod(struct TROD_Object *object, ULONG messageid, APTR data);
+ULONG TR_DoMethodClass(struct TROD_Object *object, ULONG messageid, APTR data, struct TR_Class *class);
+void TR_AreaFill(struct TR_Project *project, struct RastPort *rp, ULONG left, ULONG top, ULONG right, ULONG bottom, ULONG type, void *dummy);
+struct TR_Message *TR_CreateMsg(struct TR_App *app);
 
 #ifdef __cplusplus
 }
