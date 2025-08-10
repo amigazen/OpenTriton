@@ -1,10 +1,11 @@
-==id $Id: triton_lib.sfd,v 1.0 2025/08/10 00:00:00 amigazen Exp $
-* "triton.library"
-==license Copyright 1993-1998 by OpenTriton Project
+==id $VER: triton_lib.sfd 2.0 (10.8.2025)
+==license Amiga specific files and diffs Copyright (C) 2025 amigazen project
+==license OpenTriton Copyright (C) 1993-1998 by OpenTriton Project
 ==license Changes in 6.115 by amigazen project
 ==license Refactoring for NDK3.2 by amigazen project
+==license This library is freely distributable under GPL terms
 ==license
-==license This library is freely distributable under GPL terms.
+* "triton.library"
 ==license
 ==license This is the OpenTriton 2.0 release of the "triton.library" user
 ==license interface creation and management tool kit.
@@ -16,14 +17,13 @@
 ==include <intuition/intuitionbase.h>
 ==include <graphics/gfx.h>
 ==include <utility/tagitem.h>
-==include <libraries/triton.h>
-==bias 30
 ==typedef TR_App
 ==typedef TR_Project
 ==typedef TR_Message
 ==typedef TR_Class
 ==typedef TROD_Object
 ==typedef TR_Method
+==bias 30
 ==public
 ==version 1.0
 struct TR_Project * TR_OpenProject(struct TR_App *app, struct TagItem * taglist) (a1,a0)

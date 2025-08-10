@@ -4,10 +4,11 @@
 /*
 ** GCC format inline files.
 **
-** Copyright 1993-1998 by OpenTriton Project
+** Amiga specific files and diffs Copyright (C) 2025 amigazen project
+** OpenTriton Copyright (C) 1993-1998 by OpenTriton Project
 ** Changes in 6.115 by amigazen project
 ** Refactoring for NDK3.2 by amigazen project
-** This library is freely distributable under GPL terms.
+** This library is freely distributable under GPL terms
 ** This is the OpenTriton 2.0 release of the "triton.library" user
 ** interface creation and management tool kit.
 **
