@@ -58,20 +58,20 @@ LLIB_OBJ	= libsrc/OpenTriton.o libsrc/Stubs.o libsrc/Boopsi.o
 COMPILE		= sc LIBRARYCODE LIBRARYFDFILE=triton_lib.fd \
                   DEFINE=SVERSION=$(SVERSION) DEFINE=SREVISION=$(SREVISION)
 
-OS37		= CPU=68000 objname=obj37/
-OS39		= define=TR_OS39 CPU=68030 objname=obj39/
+# OS37		= CPU=68000 objname=obj37/
+OS39		= define=TR_OS39 CPU=68000 objname=obj39/
 OS39_INIT	= define=TR_OS39 CPU=68000 objname=obj39/
 
 
 ########################################################################################## Default targets ##
 
 default: trcl/null.trcl lib demos/Demo demos/CustomClass
-lib: libs37/triton.library
-med: default prefs/Triton libs39/triton.library
+lib: libs39/triton.library
+med: default prefs/Triton
 all: med $(BENCHMARKS) \
      demos/EnvPrint demos/CustomClass demos/trLogo \
      demos/ToolManager1 demos/ToolManager2 demos/ToolManager3 demos/ProgInd \
-     doc prefs/trPrefsUpdate cat_deutsch
+     # doc prefs/trPrefsUpdate cat_deutsch
 
 
 ################################################################################## Build the linker system ##
@@ -81,7 +81,7 @@ lib/triton.lib: $(LLIB_SRC)
 	delete lib/triton.lib
 	# OML lib/triton.lib R $(LLIB_OBJ)
 	join $(LLIB_OBJ) to lib/triton.lib
-	copy lib/triton.lib lib:
+	copy lib/triton.lib /SDK/lib
 
 
 ######################################################################################## Build the library ##
@@ -127,21 +127,21 @@ libs37/triton.library: $(LIBDEPS) $(OBJECTS37)
 	   LIBRARYCODE LIBRARYFDFILE=triton_lib.fd from $(OBJECTS37) catalogs/triton.o startup=libinit
 	   link to libs37/triton.library LIBVERSION $(VERSION) LIBREVISION $(REVISION)
 	<
-	copy libs37/triton.library libs:
+	copy libs37/triton.library /SDK/Libs
 	delete libs37/triton.lnk
-	copy triton_lib.fd FD:
-	flushlibs
-	version triton.library
+	copy triton_lib.fd /SDK/Include_h/fd/
+	NDK:C/flush
+	version /SDK/Libs/triton.library
 
 libs39/triton.library: $(LIBDEPS) $(OBJECTS39)
 	sc with <<
 	   LIBRARYCODE LIBRARYFDFILE=triton_lib.fd from $(OBJECTS39) catalogs/triton.o startup=libinit
 	   link to libs39/triton.library LIBVERSION $(VERSION) LIBREVISION $(REVISION)
 	<
-	copy libs39/triton.library libs:
+	copy libs39/triton.library /SDK/Libs
 	delete libs39/triton.lnk
-	flushlibs
-	version triton.library
+	NDK:C/flush
+	version /SDK/Libs/triton.library
 
 include/pragmas/triton_pragmas.h: triton_lib.fd
 	sc:c/fd2pragma triton_lib.fd include/pragmas/triton_pragmas.h
@@ -158,19 +158,19 @@ include/pragmas/triton_pragmas.h: triton_lib.fd
 
 ############################################################################################ Documentation ##
 
-doc: doc/Triton.guide doc/Triton.dvi doc/triton.adoc doc/TritonDev.guide doc/TritonDev.dvi cleandoc
+# doc: doc/Triton.guide doc/Triton.dvi doc/triton.adoc doc/TritonDev.guide doc/TritonDev.dvi cleandoc
 
 doc/triton.adoc: $(C_SOURCES)
 	autodoc -C -Ft:tmpfile -I $(C_SOURCES) $(LLIB_SRC) >doc/triton.adoc
 
-doc/Triton.guide: doc/Triton.texi
-	tex:texinfo/makeinfo --amiga --no-split -o doc/Triton.guide doc/Triton.texi
+# doc/Triton.guide: doc/Triton.texi
+#	tex:texinfo/makeinfo --amiga --no-split -o doc/Triton.guide doc/Triton.texi
 
 doc/Triton.dvi: doc/Triton.texi
 	execute doc/MakeDVI
 
-doc/TritonDev.guide: doc/TritonDev.texi
-	tex:texinfo/makeinfo --amiga --no-split -o doc/TritonDev.guide doc/TritonDev.texi
+# doc/TritonDev.guide: doc/TritonDev.texi
+#	tex:texinfo/makeinfo --amiga --no-split -o doc/TritonDev.guide doc/TritonDev.texi
 
 doc/TritonDev.dvi: doc/TritonDev.texi
 	execute doc/MakeDVI_dev
@@ -193,8 +193,8 @@ trcl/null.trcl: trcl/trcl.o trcl/trcl.fd
 	<
 	delete trcl/\#?.lnk
 	sc:c/fd2pragma trcl/trcl.fd trcl/trcl_pragmas.h
-	copy trcl/null.trcl libs:triton/
-	flushlibs
+	copy trcl/null.trcl /SDK/Libs/triton/
+	NDK:C/flush
 
 
 ########################################################################################### Make the demos ##
@@ -365,7 +365,7 @@ obj39/dragitem.o: classes/dragitem.c
 prefs/Triton: prefs/Triton.c lib/triton.lib incl catalogs/tritonprefs.o
 	sc LINK LIB=lib/triton.lib LIB=lib:reqtools.lib prefs/Triton.c catalogs/tritonprefs.o TO prefs/Triton
 	delete prefs/Triton.lnk prefs/Triton.o
-	copy prefs/Triton sys:prefs/
+	copy prefs/Triton /SDK/Prefs/
 
 prefs/trPrefsUpdate: prefs/trPrefsUpdate.c lib/triton.lib incl
 	sc LINK prefs/trPrefsUpdate.c TO prefs/trPrefsUpdate
@@ -379,13 +379,13 @@ cat_deutsch: catalogs/deutsch/tritonprefs.catalog catalogs/deutsch/triton.catalo
 catalogs/deutsch/tritonprefs.catalog: catalogs/tritonprefs.cd catalogs/deutsch/tritonprefs.ct
 	catcomp DESCRIPTOR=catalogs/tritonprefs.cd TRANSLATION=catalogs/deutsch/tritonprefs.ct \
 	        CATALOG=catalogs/deutsch/tritonprefs.catalog VB=1
-	copy catalogs/deutsch/tritonprefs.catalog locale:catalogs/deutsch/
+	copy catalogs/deutsch/tritonprefs.catalog /SDK/locale/catalogs/deutsch/
 	avail flush >NIL:
 
 catalogs/deutsch/triton.catalog: catalogs/triton.cd catalogs/deutsch/triton.ct
 	catcomp DESCRIPTOR=catalogs/triton.cd TRANSLATION=catalogs/deutsch/triton.ct \
 	        CATALOG=catalogs/deutsch/triton.catalog VB=1
-	copy catalogs/deutsch/triton.catalog locale:catalogs/deutsch/
+	copy catalogs/deutsch/triton.catalog /SDK/locale/catalogs/deutsch/
 	avail flush >NIL:
 
 catalogs/tritonprefs.o: catalogs/tritonprefs.cd
@@ -412,9 +412,9 @@ include/libraries/triton.h: parts/libraries_triton_1.h parts/libraries_triton_1.
 		to include/libraries/triton.h
 
 incl: include/libraries/triton.h include/pragmas/triton_pragmas.h
-	copy include include: all
-	copy include/clib/\#? GNU:os-include/clib/
-	copy include/libraries/\#? GNU:os-include/libraries/
+	copy include /SDK/Include_h
+	copy include/clib/\#? /SDK/Include_h/clib/
+	copy include/libraries/\#? /SDK/Include_h/libraries/
 
 
 ################################################################################################## Install ##

@@ -37,6 +37,7 @@
 #include <libraries/reqtools.h>
 #include <libraries/asl.h>
 #include <libraries/triton.h>
+#include <proto/exec.h>
 #include <proto/intuition.h>
 #include <proto/graphics.h>
 #include <proto/dos.h>
@@ -44,8 +45,6 @@
 #include <proto/asl.h>
 #include <proto/triton.h>
 #include <clib/alib_protos.h>
-#include <clib/exec_protos.h>
-#include <pragmas/exec_pragmas.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -71,6 +70,7 @@ struct Library *ASLBase;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 long __stack=16384;
+static STRPTR stackcookie="$STACK: 16384";
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,7 +82,7 @@ long __stack=16384;
 #include <libraries/locale.h>
 #include <proto/locale.h>
 #include "/catalogs/tritonprefs.h"
-struct Library *LocaleBase;
+extern struct LocaleBase *LocaleBase;
 struct LocaleInfo li;
 
 
@@ -156,7 +156,7 @@ struct ScreenList
 };
 
 
-UBYTE *versionstring="\0$VER: Triton " TRPREFS_VERSION " (" TRPREFS_DATE ") Triton Preferences Editor, © 1994-1995 by Stefan Zeiger";
+UBYTE *versionstring="\0$VER: Triton " TRPREFS_VERSION " (" TRPREFS_DATE ") Triton Preferences Editor, ï¿½ 1994-1995 by Stefan Zeiger";
 struct TR_App *app;
 struct TR_Project *maingui, *framesgui, *pensgui, *imagesgui, *windowsgui, *systemgui;
 struct FileList *applist, *systempenlist, *penkindlist, *penlist, *windowlist, *imagekindlist, *patternlist, *gfxpenlist;
@@ -2254,7 +2254,7 @@ int main(void)
   int retval=0;
   BOOL opened_frames, opened_pens, opened_images, opened_system, opened_windows;
 
-  if(LocaleBase=OpenLibrary("locale.library",38))
+  if(LocaleBase=(struct LocaleBase *)OpenLibrary("locale.library",38))
   {
     li.li_LocaleBase=LocaleBase;
     li.li_Catalog=OpenCatalogA(NULL,"tritonprefs.catalog",NULL);
@@ -2323,7 +2323,7 @@ int main(void)
   if(li.li_LocaleBase)
   {
     CloseCatalog(li.li_Catalog);
-    CloseLibrary(LocaleBase);
+    CloseLibrary((struct Library *)LocaleBase);
   }
 
   return retval;

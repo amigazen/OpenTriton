@@ -1,0 +1,62 @@
+==id $Id: triton_lib.sfd,v 1.0 2024/12/19 00:00:00 amigazen Exp $
+* "triton.library"
+==license Copyright 1993-1998 by OpenTriton Project
+==license Changes in 6.115 by amigazen project
+==license Refactoring for NDK3.2 by amigazen project
+==license
+==license This library is freely distributable.
+==license
+==license This is the OpenTriton 2.0 release of the "triton.library" user
+==license interface creation and management tool kit.
+==license
+==license I'm grateful for any enhancement requests, bug reports and especially bug
+==license fixes. Contact: amigazen@amigazen.org
+==base _TritonBase
+==basetype struct Library *
+==libname triton.library
+==bias 30
+==public
+==include <exec/types.h>
+==include <intuition/intuition.h>
+==include <intuition/intuitionbase.h>
+==include <graphics/gfx.h>
+==include <utility/tagitem.h>
+==version 1.0
+APTR TR_OpenProject(APTR app, struct TagItem * taglist) (a1,a0)
+VOID TR_CloseProject(APTR project) (a0)
+LONG TR_FirstOccurance(UBYTE ch, STRPTR str) (d0,a0)
+LONG TR_NumOccurances(UBYTE ch, STRPTR str) (d0,a0)
+STRPTR TR_GetErrorString(LONG num) (d0)
+LONG TR_SetAttribute(APTR project, LONG ID, LONG attribute, LONG value) (a0,d0,d1,d2)
+LONG TR_GetAttribute(APTR project, LONG ID, LONG attribute) (a0,d0,d1)
+VOID TR_LockProject(APTR project) (a0)
+VOID TR_UnlockProject(APTR project) (a0)
+==version 1.1
+LONG TR_AutoRequest(APTR app, APTR lockproject, struct TagItem * wintags) (a1,a0,a2)
+LONG TR_EasyRequest(APTR app, STRPTR bodyfmt, STRPTR gadfmt, struct TagItem * taglist) (a1,a2,a3,a0)
+APTR TR_CreateApp(struct TagItem * apptags) (a1)
+VOID TR_DeleteApp(APTR app) (a1)
+APTR TR_GetMsg(APTR app) (a1)
+VOID TR_ReplyMsg(APTR message) (a1)
+LONG TR_Wait(APTR app, ULONG otherbits) (a1,d0)
+VOID TR_CloseWindowSafely(struct Window * window) (a0)
+LONG TR_GetLastError(APTR app) (a1)
+VOID TR_LockScreen(APTR project) (a0)
+VOID TR_UnlockScreen(struct Screen * screen) (a0)
+APTR TR_ObtainWindow(APTR project) (a0)
+VOID TR_ReleaseWindow(struct Window * window) (a0)
+LONG TR_SendMessage(APTR project, LONG objectid, LONG messageid, APTR messagedata) (a0,d0,d1,a1)
+LONG TR_AddClass(APTR app, LONG tag, LONG supertag, LONG defaultmethod, LONG datasize, struct TagItem * tags) (a1,d0,d1,a2,d2,a0)
+==version 2.0
+VOID TR_DrawFrame(APTR project, struct RastPort * rp, LONG left, LONG top, LONG width, LONG height, LONG type, LONG inverted) (a0,a1,d1,d2,d3,d4,d0,d5)
+LONG TR_FrameBorderWidth(APTR project, LONG type) (a0,d0)
+LONG TR_FrameBorderHeight(APTR project, LONG type) (a0,d0)
+LONG TR_TextWidth(APTR project, STRPTR text, LONG flags) (a0,a2,d0)
+LONG TR_TextHeight(APTR project, STRPTR text, LONG flags) (a0,a2,d0)
+VOID TR_PrintText(APTR project, struct RastPort * rp, STRPTR text, LONG x, LONG y, LONG width, LONG flags) (a0,a1,a2,d1,d2,d3,d0)
+LONG TR_GetPen(APTR project, LONG pentype, LONG pendata) (a0,d0,d1)
+LONG TR_DoMethod(APTR object, LONG messageid, APTR data) (a0,d0,a1)
+LONG TR_DoMethodClass(APTR object, LONG messageid, APTR data, APTR class) (a0,d0,a1,a2)
+VOID TR_AreaFill(APTR project, struct RastPort * rp, LONG left, LONG top, LONG right, LONG bottom, LONG type, APTR dummy) (a0,a1,d0,d1,d2,d3,d4,a2)
+APTR TR_CreateMsg(APTR app) (a1)
+==end

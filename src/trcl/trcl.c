@@ -24,12 +24,10 @@
 #include <exec/exec.h>
 #include <intuition/intuition.h>
 #include <libraries/triton.h>
-#include <clib/exec_protos.h>
-#include <clib/intuition_protos.h>
+#include <proto/exec.h>
+#include <proto/intuition.h>
 #include <clib/triton_protos.h>
 #include <clib/alib_protos.h>
-#include <pragmas/exec_pragmas.h>
-#include <pragmas/intuition_pragmas.h>
 #include <pragmas/triton_pragmas.h>
 
 

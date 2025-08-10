@@ -42,15 +42,11 @@
 #include <devices/keymap.h>
 #include <devices/inputevent.h>
 
-#include <clib/exec_protos.h>
-#include <clib/dos_protos.h>
-#include <clib/keymap_protos.h>
-#include <clib/wb_protos.h>
+#include <proto/exec.h>
+#include <proto/dos.h>
+#include <proto/keymap.h>
+#include <proto/wb.h>
 #include <clib/alib_protos.h>
-#include <pragmas/exec_pragmas.h>
-#include <pragmas/dos_pragmas.h>
-#include <pragmas/keymap_pragmas.h>
-#include <pragmas/wb_pragmas.h>
 
 #include <stdlib.h>
 #include <ctype.h>
@@ -68,23 +64,23 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const UBYTE versionstring[]="\0$VER: triton.library " SVERSION "." SREVISION " " __AMIGADATE__;
-const UBYTE cooper[]="/THE/OWLS/ARE/NOT/WHAT/THEY/SEEM/";
+//const UBYTE cooper[]="/THE/OWLS/ARE/NOT/WHAT/THEY/SEEM/";
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////// Library bases //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-struct IntuitionBase *IntuitionBase;
-struct GfxBase *GfxBase;
-struct Library *GadToolsBase;
-struct Library *UtilityBase;
-struct Library *DiskfontBase;
-struct Library *KeymapBase;
-struct Library *SysBase;
-struct Library *DOSBase;
-struct Library *WorkbenchBase;
-struct Library *LocaleBase;
+extern struct IntuitionBase *IntuitionBase;
+extern struct GfxBase *GfxBase;
+extern struct Library *GadToolsBase;
+extern struct Library *UtilityBase;
+extern struct Library *DiskfontBase;
+extern struct Library *KeymapBase;
+extern struct ExecBase *SysBase;
+extern struct DosLibrary *DOSBase;
+extern struct Library *WorkbenchBase;
+extern struct LocaleBase *LocaleBase;
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -102,6 +98,10 @@ struct LocaleInfo li;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////// Amiga.lib, sc.lib replacement functions //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#ifndef TR_OS39
+/* These varargs wrapper functions are only needed for older OS versions */
+/* Modern amiga.lib already provides these functions */
 
 VOID GT_SetGadgetAttrs(struct Gadget *g, struct Window *w, struct Requester *r, ULONG tags,...)
 {
@@ -138,6 +138,7 @@ struct Screen * __inline OpenScreenTags(struct NewScreen *ns, ULONG tags,...)
   return OpenScreenTagList(ns,(struct TagItem *)&tags);
 }
 
+#endif /* !TR_OS39 */
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////// Pool support for all system software versions //
@@ -407,7 +408,7 @@ int __saveds __asm __UserLibInit(VOID)
   NewList((struct List *)&(TR_Global.trg_ClassList));
   NewList((struct List *)&(TR_Global.trg_ScreenList));
 
-  if(!(DOSBase=OpenLibrary("dos.library",37L))) goto failed;
+  if(!(DOSBase=(struct DosLibrary *)OpenLibrary("dos.library",37L))) goto failed;
   if(!(IntuitionBase=(struct IntuitionBase *)OpenLibrary("intuition.library",37L))) goto failed;
   if(!(GfxBase=(struct GfxBase *)OpenLibrary("graphics.library",37L))) goto failed;
   if(!(GadToolsBase=OpenLibrary("gadtools.library",37L))) goto failed;
@@ -416,7 +417,7 @@ int __saveds __asm __UserLibInit(VOID)
   if(!(KeymapBase=OpenLibrary("keymap.library",37L))) goto failed;
   if(!(WorkbenchBase=OpenLibrary("workbench.library",37L))) goto failed;
 
-  if(LocaleBase=OpenLibrary("locale.library",38L))
+  if(LocaleBase=(struct LocaleBase *)OpenLibrary("locale.library",38L))
     {
       li.li_LocaleBase=LocaleBase;
       li.li_Catalog=OpenCatalogA(NULL,"triton.catalog",NULL);
@@ -451,7 +452,7 @@ VOID __saveds __UserLibCleanup(VOID)
   if(LocaleBase)
     {
       CloseCatalog(li.li_Catalog);
-      CloseLibrary(LocaleBase);
+      CloseLibrary((struct Library *)LocaleBase);
     }
   CloseLibrary(WorkbenchBase);
   CloseLibrary(KeymapBase);
@@ -460,6 +461,8 @@ VOID __saveds __UserLibCleanup(VOID)
   CloseLibrary(GadToolsBase);
   CloseLibrary((struct Library *)GfxBase);
   CloseLibrary((struct Library *)IntuitionBase);
+  if(DOSBase) CloseLibrary((struct Library *)DOSBase);
+  // To Do where's DOSBase and SysBase? - FIXED: Added DOSBase cleanup
 }
 
 
@@ -2861,9 +2864,9 @@ VOID __asm __saveds TR_ReleaseWindow(register __a0 struct Window *screen)
 *	  Name        : DilloCreate
 *	  LongName    : Armadillo Creator
 *	  Info        : Part of the Armadillo Management System.
-*	                © 1994 by DilloWorks Enterprises.
+*	                ï¿½ 1994 by DilloWorks Enterprises.
 *	  Version     : 42.135
-*	  Release     : 2.1bß3
+*	  Release     : 2.1bï¿½3
 *	  Date        : 17.6.94
 *
 *   RESULT

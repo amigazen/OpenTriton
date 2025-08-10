@@ -38,12 +38,11 @@
 #include <graphics/gfx.h>
 #include <libraries/gadtools.h>
 #include <libraries/triton.h>
+#include <proto/exec.h>
 #include <proto/intuition.h>
 #include <proto/graphics.h>
 #include <proto/dos.h>
 #include <clib/alib_protos.h>
-#include <clib/exec_protos.h>
-#include <pragmas/exec_pragmas.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -99,7 +98,7 @@ struct FileList
 };
 
 
-UBYTE *versionstring="\0$VER: trPrefsUpdate " TRPREFSUPDATE_VERSION " (" TRPREFSUPDATE_DATE ") Triton Preferences Updator, © 1994-1995 by Stefan Zeiger";
+UBYTE *versionstring="\0$VER: trPrefsUpdate " TRPREFSUPDATE_VERSION " (" TRPREFSUPDATE_DATE ") Triton Preferences Updator, ï¿½ 1994-1995 by Stefan Zeiger";
 struct FileList *prefslist;
 
 

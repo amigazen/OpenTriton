@@ -47,11 +47,9 @@
 #include <intuition/intuition.h>
 #include <intuition/intuitionbase.h>
 
-#include <clib/exec_protos.h>
-#include <clib/dos_protos.h>
+#include <proto/exec.h>
+#include <proto/dos.h>
 #include <clib/alib_protos.h>
-#include <pragmas/exec_pragmas.h>
-#include <pragmas/dos_pragmas.h>
 
 #include "include/libraries/triton.h"
 #include "include/clib/triton_protos.h"
