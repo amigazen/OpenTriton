@@ -1,16 +1,13 @@
-==id $Id: triton_lib.sfd,v 1.0 2024/12/19 00:00:00 amigazen Exp $
+==id $Id: triton_lib.sfd,v 1.0 2025/08/10 00:00:00 amigazen Exp $
 * "triton.library"
 ==license Copyright 1993-1998 by OpenTriton Project
 ==license Changes in 6.115 by amigazen project
 ==license Refactoring for NDK3.2 by amigazen project
 ==license
-==license This library is freely distributable.
+==license This library is freely distributable under GPL terms.
 ==license
 ==license This is the OpenTriton 2.0 release of the "triton.library" user
 ==license interface creation and management tool kit.
-==license
-==license I'm grateful for any enhancement requests, bug reports and especially bug
-==license fixes. Contact: amigazen@amigazen.org
 ==base _TritonBase
 ==basetype struct Library *
 ==libname triton.library

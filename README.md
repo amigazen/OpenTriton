@@ -42,10 +42,10 @@ Each component of **ToolKit** is open source and like *OpenTriton* here will hav
 
 ## To Do
 
-- Add SFD 
 - Add VBCC build
 - Add unittests
 - Code review and hardening
+- Fix issue with libdescconverter and add to smakefile
 
 ## Contact 
 
